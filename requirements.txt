@@ -1,0 +1,6 @@
+scapy
+paramiko
+pyzmq
+python-nmap
+ldap3
+requests

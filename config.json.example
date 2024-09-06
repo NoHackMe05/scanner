@@ -1,0 +1,19 @@
+{
+    "interfaces": [
+        {
+            "name": "ens18",
+            "ip_range": "172.17.2.0/24",
+            "nmap_mode": "advanced"
+        }
+    ],
+    "specific_ips": [
+        "192.168.1.69"
+    ],
+    "sniffer": {
+        "zmq_address": "ipc:///tmp/nohackme_sniffer.ipc",
+        "zmq_address_pub": "ipc:///tmp/nohackme_sniffer_pub.ipc",
+        "filter": "arp or icmp or (port 67 or port 68) or port 53"
+    },
+    "debug_mode": true,
+    "output_file": "scan_results.json"
+}
