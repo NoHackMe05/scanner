@@ -2,13 +2,17 @@
 
 ## Install
 
+```
 git clone git@github.com:NoHackMe05/scanner.git
 
 cd scanner
+```
 
 ### Sniffer
 
+```
 sudo dpkg -i sniffer/nhm-sniffer_1.0_amd64.deb
+```
 
 ### Agents
 
@@ -23,15 +27,19 @@ sudo dpkg -i sniffer/nhm-sniffer_1.0_amd64.deb
 
 Requires Nmap installation:
 
-- sudo apt update
-- sudo apt install nmap
+```
+sudo apt update
+sudo apt install nmap
+```
 
 Installing Python packages (root) :
 
-- python3 -m venv mon_env
-- source mon_env/bin/activate
-- pip install -r requirements.txt
-- deactivate
+```
+python3 -m venv mon_env
+source mon_env/bin/activate
+pip install -r requirements.txt
+deactivate
+```
 
 ## Usage
 
@@ -53,15 +61,19 @@ Copy the agent adapted to the platform onto client machines. Then launch the cli
 
 You'll need to run the program in root mode (because of the ARP scan). Go to root then :
 
-- source mon_env/bin/activate
-- python network-scanner.py
-- deactivate
+```
+source mon_env/bin/activate
+python network-scanner.py
+deactivate
+```
 
 To stop the scan: Ctrl + C
 
 #### The configuration file
 
+```
 cp config.json.example config.json
+```
 
 The configuration file allows you to:
 
