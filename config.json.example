@@ -1,13 +1,9 @@
 {
     "interfaces": [
         {
-            "name": "ens18",
-            "ip_range": "172.17.2.0/24",
-            "nmap_mode": "advanced"
+            "name": "eth0",
+            "ip_range": "192.168.1.0/24",
         }
-    ],
-    "specific_ips": [
-        "192.168.1.69"
     ],
     "sniffer": {
         "zmq_address": "ipc:///tmp/nohackme_sniffer.ipc",
@@ -15,5 +11,8 @@
         "filter": "arp or icmp or (port 67 or port 68) or port 53"
     },
     "debug_mode": true,
-    "output_file": "scan_results.json"
+    "nmap_mode": "basic",
+    "output_file": "scan_results.json",
+    "scan_interval": 5,
+    "max_threads": 4
 }
