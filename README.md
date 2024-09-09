@@ -61,6 +61,8 @@ To stop the scan: Ctrl + C
 
 #### The configuration file
 
+cp config.json.example config.json
+
 The configuration file allows you to:
 
 - Set interfaces and subnets to be scanned
