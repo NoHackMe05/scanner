@@ -91,6 +91,15 @@ def agent_connect(ip, subnet, data):
             socket.close()
         if 'context' in locals():
             context.term()
+
+def launch_scanner(scanner_class, ip, subnet, port, data, *args):
+    try:
+        log_warning(f"Launching {scanner_class.__name__} for {ip}")
+        scanner = scanner_class()
+        infos = scanner.scan(*args)
+        data.add_scanner_infos(ip, subnet, port, infos)
+    except Exception as e:
+        log_error(f"Error during {scanner_class.__name__} scan for {ip}: {e}")
         
 def launch_scan(ip, subnet, config, data, scanned_ips, lock, active_tasks, counter_lock, stop_event):
     if stop_event.is_set():
@@ -117,70 +126,22 @@ def launch_scan(ip, subnet, config, data, scanned_ips, lock, active_tasks, count
             data.add_infos(ip, subnet, infos)
 
             ports = data.get_ip_ports(subnet, ip)
+            port_scanner_map = {
+                21: (FTPScanner, [ip]),
+                22: (SSHScanner, [ip]),
+                80: (HTTPScanner, [ip, 80]),
+                135: (MSRPCScanner, [ip, 135]),
+                137: (NetbiosScanner, [ip, 137]),
+                139: (NetbiosScanner, [ip, 139]),
+                389: (LDAPScanner, [ip, 389]),
+                445: (MSDSScanner, [ip, 445]),
+            }
+
             for port in ports:
-                if port == 21:
-                    try:
-                        log_warning(f"Launching FTP scanner for {ip}")
-                        ftp_scanner = FTPScanner()
-                        infos = ftp_scanner.scan(ip)
-                        data.add_scanner_infos(ip, subnet, port, infos)
-                    except Exception as e:
-                        log_error(f"Error during FTP scan for {ip}: {e}")
-                        pass 
-                elif port == 22:
-                    try:
-                        log_warning(f"Launching SSH scanner for {ip}")
-                        ssh_scanner = SSHScanner()
-                        infos = ssh_scanner.scan(ip)
-                        data.add_scanner_infos(ip, subnet, port, infos)
-                    except Exception as e:
-                        log_error(f"Error during SSH scan for {ip}: {e}")
-                        pass
-                elif port == 80:
-                    try:
-                        log_warning(f"Launching HTTP scanner for {ip}")
-                        http_scanner = HTTPScanner()
-                        infos = http_scanner.scan(ip, port)
-                        data.add_scanner_infos(ip, subnet, port, infos)
-                    except Exception as e:
-                        log_error(f"Error during HTTP scan for {ip}: {e}")
-                        pass
-                elif port == 135:
-                    try:
-                        log_warning(f"Launching MSRPC scanner for {ip}")
-                        msrpc_scanner = MSRPCScanner()
-                        infos = msrpc_scanner.scan(ip, port)
-                        data.add_scanner_infos(ip, subnet, port, infos)
-                    except Exception as e:
-                        log_error(f"Error during MSRPC scan for {ip}: {e}")
-                        pass
-                elif port == 137 or port == 139:
-                    try:
-                        log_warning(f"Launching NetBIOS for {ip}")
-                        netbios_scanner = NetbiosScanner(port)
-                        infos = netbios_scanner.scan(ip)
-                        data.add_scanner_infos(ip, subnet, port, infos)
-                    except Exception as e:
-                        log_error(f"Error during NetBIOS scan for {ip}: {e}")
-                        pass  
-                elif port == 389:
-                    try:
-                        log_warning(f"Launching LDAP scanner for {ip}")
-                        ldap_scanner = LDAPScanner()
-                        infos = ldap_scanner.scan(ip, port)
-                        data.add_scanner_infos(ip, subnet, port, infos)
-                    except Exception as e:
-                        log_error(f"Error during LDAP scan for {ip}: {e}")
-                        pass
-                elif port == 445:
-                    try:
-                        log_warning(f"Launching MSDS scanner for {ip}")
-                        msds_scanner = MSDSScanner()
-                        infos = msds_scanner.scan(ip, port)
-                        data.add_scanner_infos(ip, subnet, port, infos)
-                    except Exception as e:
-                        log_error(f"Error during MSDS scan for {ip}: {e}")
-                        pass
+                scanner_info = port_scanner_map.get(port)
+                if scanner_info:
+                    scanner_class, args = scanner_info
+                    launch_scanner(scanner_class, ip, subnet, port, data, *args)
     except Exception as e:
         log_error(f"Error during scan for {ip}: {e}")
         data.host_updated(ip, subnet)
