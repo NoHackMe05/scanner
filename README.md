@@ -59,18 +59,6 @@ The sniffer runs as a service. Here are the useful paths and files:
 
 Copy the agent adapted to the platform onto client machines. Then launch the client manually (or install it via an Ansible or Saltstack script).
 
-### Scanner
-
-You'll need to run the program in root mode (because of the ARP scan). Go to root then :
-
-```
-source mon_env/bin/activate
-python network-scanner.py
-deactivate
-```
-
-To stop the scan: Ctrl + C
-
 #### The configuration file
 
 ```
@@ -87,9 +75,24 @@ The configuration file allows you to:
 - Scan interval
 - Number of threads
 
+### Scanner
+
+You'll need to run the program in root mode (because of the ARP scan). Go to root then :
+
+```
+source mon_env/bin/activate
+python network-scanner.py -c config.json
+deactivate
+```
+
+To stop the scan: Ctrl + C
+
+If no argument is passed, the default config.json file is used. The argument allows different configurations depending on the infrastructure.
+
 ## TODO
 
-- Pass config file as parameter
+This tool is currently under development
+
 - Securing ZMQ communications
 - Replace Nmap with an unlicensed port scanner
 - Enhance existing scanners (LDAP, SSH, etc.)
