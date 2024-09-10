@@ -1,5 +1,7 @@
 # scanner
 
+Tool for machine discovery and fleet monitoring
+
 ## Install
 
 ```
@@ -84,3 +86,7 @@ The configuration file allows you to:
 - Name of json output file
 - Scan interval
 - Number of threads
+
+## Licence
+
+Ce projet est sous licence MIT. Consultez le fichier [LICENSE](./LICENSE) pour plus d'informations.
