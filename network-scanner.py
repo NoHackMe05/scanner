@@ -1,6 +1,7 @@
 import os
 import json
 import sys
+import argparse
 
 from utils.network import NetworkScanner
 from utils.logger import setup_logger, log_error
@@ -10,8 +11,20 @@ def load_config(config_file):
         return json.load(file)
     
 def main():
-    if os.path.exists("config.json"):
-        scanner = NetworkScanner(load_config("config.json"))
+    # Declare Available arguments
+    parser = argparse.ArgumentParser(
+        description='Network Scanner')
+    parser.add_argument("-c", "--config", help="Config file")
+
+    args = parser.parse_args()
+
+    if args.config:
+        config = args.config
+    else:
+        config = "config2.json"
+    
+    if os.path.exists(config):
+        scanner = NetworkScanner(load_config(config))
         setup_logger(debug_mode=scanner.config.get("debug_mode", False))
     else:
         log_error("No config file")
