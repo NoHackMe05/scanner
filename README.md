@@ -59,6 +59,8 @@ The sniffer runs as a service. Here are the useful paths and files:
 
 Copy the agent adapted to the platform onto client machines. Then launch the client manually (or install it via an Ansible or Saltstack script).
 
+### Scanner
+
 #### The configuration file
 
 ```
@@ -75,7 +77,7 @@ The configuration file allows you to:
 - Scan interval
 - Number of threads
 
-### Scanner
+#### Command line
 
 You'll need to run the program in root mode (because of the ARP scan). Go to root then :
 
