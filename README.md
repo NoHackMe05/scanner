@@ -87,6 +87,13 @@ The configuration file allows you to:
 - Scan interval
 - Number of threads
 
-## Licence
+## TODO
 
-Ce projet est sous licence MIT. Consultez le fichier [LICENSE](./LICENSE) pour plus d'informations.
+- Securing ZMQ communications
+- Replace Nmap with an unlicensed port scanner
+- Enhance existing scanners (LDAP, SSH, etc.)
+- Add exploit tests
+
+## DISCLAIMER
+
+This tool is to be used on your own infrastructure or with the agreement of a customer. Make sure you are aware of the legal requirements before using it. This tool has been created for educational purposes.
