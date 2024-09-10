@@ -89,6 +89,7 @@ The configuration file allows you to:
 
 ## TODO
 
+- Pass config file as parameter
 - Securing ZMQ communications
 - Replace Nmap with an unlicensed port scanner
 - Enhance existing scanners (LDAP, SSH, etc.)
